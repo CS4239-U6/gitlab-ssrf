@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  web:
+    image: "gitlab/gitlab-ce:13.10.5-ce.0"
+    restart: always
+    hostname: "gitlab.example.com"
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.example.com'
+    ports:
+      - "5000:80"
+      - "50443:443"
+      - "5022:22"
+    volumes:
+      - "./srv/gitlab/config:/etc/gitlab"
+      - "./srv/gitlab/logs:/var/log/gitlab"
+      - "./srv/gitlab/data:/var/opt/gitlab"
+    networks:
+      - internal
+  yaml:
+    build:
+      dockerfile: Dockerfile
+      context: ./yaml-server
+    volumes:
+      - "./yaml-server/index.html:/usr/share/nginx/html/index.html"
+      - "./yaml-server/test.yml:/usr/share/nginx/html/test.yml"
+    expose:
+      - "80"
+    networks:
+      - internal
+
+networks:
+  internal:
