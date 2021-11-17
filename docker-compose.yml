@@ -10,7 +10,7 @@ services:
         external_url 'http://gitlab.example.com'
         redis['bind']='127.0.0.1'
         redis['port']=6379
-        gitlab_rails['initial_root_password']=File.read('/steg0_initial_root_password')
+        gitlab_rails['initial_root_password']=File.read('/initial_root_password')
     ports:
       - "5080:80"
       - "50443:443"
@@ -19,5 +19,5 @@ services:
       - "./srv/gitlab/config:/etc/gitlab"
       - "./srv/gitlab/logs:/var/log/gitlab"
       - "./srv/gitlab/data:/var/opt/gitlab"
-      - "./steg0_initial_root_password:/steg0_initial_root_password"
+      - "./initial_root_password:/initial_root_password"
       - "./flag:/flag:ro"
