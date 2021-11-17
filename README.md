@@ -57,7 +57,7 @@ We will first run through the steps, before explaining what each of these steps 
 
    Create a webhook URL at `https://webhook.site/`.
 
-   Paste the URL into the following code at `<URL HERE>`:
+   Replace the webhook URL in the following payload:
 
    ```text
    git://[0:0:0:0:0:ffff:127.0.0.1]:6379/
